@@ -7,7 +7,7 @@ As sync folder contained big data it makes impossible synchronization via networ
 #### Scheme of synchronization
 
 ```
-snaifYoga ↔  **snaifExHard** ↔  snaifServer
+snaifYoga ↔  snaifExHard ↔  snaifServer
                  ↕
                otherPC
 ```
