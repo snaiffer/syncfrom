@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source /etc/syncfrom.conf
+
+rsync -a --delete --progress -v $path_pc/sync $path_disk/
