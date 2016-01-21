@@ -10,3 +10,5 @@ else
     rsync -a --delete --progress -v $path_disk/sync/$cur_f $path_pc/sync/
   done
 fi
+
+sync
