@@ -42,7 +42,7 @@ get_disk_name() {
 short_sync() {
   printf "Do you want the short sync (include sync of several folders)? (y/n) " && read answer
   if [ "$answer" = "y" ]; then
-    short_sync="BasKet documents work unsorted"
+    short_sync="BasKet documents work unsorted english"
     printf "\tShort sync turn on. Default list for sync: ($short_sync) " && read new_short_sync
     if [ "$new_short_sync" != "" ]; then short_sync="$new_short_sync"; fi
     #analize && break
