@@ -7,9 +7,11 @@ As sync folder contained big data it makes impossible synchronization via networ
 #### Scheme of synchronization
 
 ```
-snaifYoga ↔  snaifExHard ↔  snaifServer
-                 ↕
-               otherPC
+snaifYoga ↔ snaifExHard ↔ snaifServer
+                ↕
+             otherPC
+
+pc ↔ remotePC
 ```
 
 snaifExHard should be **mounted**.
@@ -23,14 +25,26 @@ sudo ./install
 Note: run it again for reconfiguration.
 
 ## Use
-exhard →  pc
+exhard → pc
 
 ```sh
 syncfrom_exhard_pc
 ```
 
-pc →  exhard
+pc → exhard
 
 ```sh
 syncfrom_pc_exhard
+```
+
+remotePC → pc
+
+```sh
+syncfrom_remotePC_pc
+```
+
+pc → remotePC
+
+```sh
+syncfrom_pc_remotePC
 ```

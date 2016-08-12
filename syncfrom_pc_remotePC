@@ -1,0 +1,18 @@
+#!/bin/bash
+
+source /etc/syncfrom.conf
+
+hamachi list
+echo
+printf 'Input address of remotePC (Ex.: user@10.1.2.5): ' && read remotePC
+
+if [ "$short_sync" = "" ]; then
+  rsync -a --delete --progress -v $path_pc/sync $remotePC/
+else
+  ssh $remotePC "mkdir -p sync"
+  for cur_f in $short_sync; do
+    rsync -a --delete --progress -v $path_pc/sync/$cur_f $remotePC/sync/
+  done
+fi
+
+sync
