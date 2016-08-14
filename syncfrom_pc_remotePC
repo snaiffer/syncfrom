@@ -11,7 +11,7 @@ if [ "$short_sync" = "" ]; then
 else
   ssh $remotePC "mkdir -p sync"
   for cur_f in $short_sync; do
-    rsync -a --delete --progress -v $path_pc/sync/$cur_f $remotePC/sync/
+    rsync -a --delete --progress -v $path_pc/sync/$cur_f $remotePC:sync/
   done
 fi
 
