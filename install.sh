@@ -5,6 +5,9 @@ export dir_bin="/usr/bin"
 export file_conf="/etc/syncfrom.conf"
 export path_pc="/home/snaiffer"
 export disk_name="snaifExHard"
+export snaifServer_addr="snaiffer@25.97.252.238"
+export snaifServer_port="2002"
+export snaifServer_path="/store"
 
 analize_path_pc() {
   path_pc=`echo $path_pc | sed "s/\/$//" | sed "s/\/sync$//"`
@@ -51,7 +54,10 @@ short_sync() {
 
 save_conf() {
   sudo echo "export path_pc=$path_pc
-export path_disk=$path_disk" > $file_conf
+export path_disk=$path_disk
+export snaifServer_addr=$snaifServer_addr
+export snaifServer_port=$snaifServer_port
+export snaifServer_path=$snaifServer_path" > $file_conf
   if [ "$short_sync" != "" ]; then
     sudo echo "" >> $file_conf
     sudo echo "# Settings for selective synchronization" >> $file_conf
@@ -63,11 +69,15 @@ export path_disk=$path_disk" > $file_conf
 
 echo "Installing syncfrom* scripts at the system..."
 sudo cp -f $dir_script/syncfrom* $dir_bin/ && sudo chmod +x $dir_bin/syncfrom*
+sudo cp -f $dir_script/.syncfrom* $dir_bin/ && sudo chmod +x $dir_bin/.syncfrom*
 
 echo "Settings:"
 get_path_pc
 get_disk_name
 short_sync
+printf "Input address of snaifServer_addr (By default: $snaifServer_addr): " && read snaifServer_addr
+printf "Input ssh-port of snaifServer_addr (By default: $snaifServer_port): " && read snaifServer_port
+printf "Input path to sync-directory of snaifServer_addr (By default: $snaifServer_path): " && read snaifServer_path
 save_conf
 
 echo -e "done.\n"

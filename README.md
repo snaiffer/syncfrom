@@ -1,20 +1,25 @@
-The set of the scripts for simplification synchronization **sync** folder between **pc** and **exhard** (external hard disk).
+The set of the scripts for simplification synchronization **sync** folder between **pc**,  **exhard** (external hard disk) and **remotePC** (via SSH).
 
 **rsync** is used for synchronization.
 
-As sync folder contained big data it makes impossible synchronization via network. So it's through **wired interface** (for ex.: USB).
+## Scheme of synchronization
 
-#### Scheme of synchronization
+### via USB (snaifExHard):
 
+snaifExHard should be **mounted**.
 ```
 snaifYoga ↔ snaifExHard ↔ snaifServer
                 ↕
              otherPC
-
-pc ↔ remotePC
 ```
 
-snaifExHard should be **mounted**.
+### via SSH:
+
+```
+pc ↔ remotePC
+pc ↔ snaifServer
+```
+
 
 ## Installation and configuration
 
@@ -25,6 +30,9 @@ sudo ./install
 Note: run it again for reconfiguration.
 
 ## Use
+
+### via USB
+
 exhard → pc
 
 ```sh
@@ -37,6 +45,8 @@ pc → exhard
 syncfrom_pc_exhard
 ```
 
+### via SSH
+
 remotePC → pc
 
 ```sh
@@ -47,4 +57,16 @@ pc → remotePC
 
 ```sh
 syncfrom_pc_remotePC
+```
+
+snaifServer → pc
+
+```sh
+syncfrom_snaifServer_pc
+```
+
+pc → snaifServer
+
+```sh
+syncfrom_pc_snaifServer
 ```

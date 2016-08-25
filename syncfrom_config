@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo
+echo "Config file: /etc/syncfrom.conf"
+echo "======================================="
+cat /etc/syncfrom.conf
+echo "======================================="
+echo

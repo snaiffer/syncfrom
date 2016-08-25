@@ -1,0 +1,15 @@
+#!/bin/bash
+
+source /etc/syncfrom.conf
+
+echo
+echo -e "snaifServer:"
+echo -e "\taddress = $snaifServer_addr"
+echo -e "\tport = $snaifServer_port"
+echo -e "\tpath = $snaifServer_path"
+
+export remotePC="$snaifServer_addr"
+export remotePC_port="$snaifServer_port"
+export remotePC_path="$snaifServer_path"
+
+.syncfrom_pc_remotePC

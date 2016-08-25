@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ "$short_sync" = "" ]; then
+  rsync --rsh="ssh -p $remotePC_port" -a --delete --progress -v $path_pc/sync $remotePC:$remotePC_path
+else
+  ssh -p $remotePC_port $remotePC "mkdir -p $remotePC_path/sync"
+  for cur_f in $short_sync; do
+    rsync --rsh="ssh -p $remotePC_port" -a --delete --progress -v $path_pc/sync/$cur_f $remotePC:$remotePC_path/sync/
+  done
+fi
+
+sync
