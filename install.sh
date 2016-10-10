@@ -38,7 +38,10 @@ get_disk_name() {
     printf "Enter the disk name: ($disk_name) " && read new_disk_name
     if [ "$new_disk_name" != "" ]; then disk_name=$new_disk_name; fi
     analize_disk_name && break
-    echo -e "The disk name is wrong. Try again.\n"
+    echo -e "Error: Can't find the disk with such name."
+    echo -e "Note: you have to mount your disk to PC\n"
+    echo -e "Do you want to try again? (y/n) " && read answer
+    if [ "$answer" = "n" ]; then break; fi
   done
   }
 
@@ -53,16 +56,16 @@ short_sync() {
   }
 
 save_conf() {
-  sudo echo "export path_pc=$path_pc
+  echo "export path_pc=$path_pc
 export path_disk=$path_disk
 export snaifServer_addr=$snaifServer_addr
 export snaifServer_port=$snaifServer_port
-export snaifServer_path=$snaifServer_path" > $file_conf
+export snaifServer_path=$snaifServer_path" | sudo tee $file_conf > /dev/null
   if [ "$short_sync" != "" ]; then
-    sudo echo "" >> $file_conf
-    sudo echo "# Settings for selective synchronization" >> $file_conf
-    sudo echo "# write folders names through space; or delete this settings for full sync" >> $file_conf
-    sudo echo "export short_sync=\"$short_sync\"" >> $file_conf
+    echo "
+# Settings for selective synchronization
+# write folders names through space; or delete this settings for full sync
+export short_sync=\"$short_sync\"" | sudo tee -a $file_conf > /dev/null
   fi
   }
 
@@ -75,9 +78,12 @@ echo "Settings:"
 get_path_pc
 get_disk_name
 short_sync
-printf "Input address of snaifServer_addr (By default: $snaifServer_addr): " && read snaifServer_addr
-printf "Input ssh-port of snaifServer_addr (By default: $snaifServer_port): " && read snaifServer_port
-printf "Input path to sync-directory of snaifServer_addr (By default: $snaifServer_path): " && read snaifServer_path
+printf "Input address of snaifServer (By default: $snaifServer_addr): " && read new_snaifServer_addr
+if [ "$new_snaifServer_addr" != "" ]; then snaifServer_addr=$new_snaifServer_addr; fi
+printf "Input ssh-port of snaifServer (By default: $snaifServer_port): " && read new_snaifServer_port
+if [ "$new_snaifServer_port" != "" ]; then snaifServer_port=$new_snaifServer_port; fi
+printf "Input path to sync-directory of snaifServer (By default: $snaifServer_path): " && read new_snaifServer_path
+if [ "$new_snaifServer_path" != "" ]; then snaifServer_path=$new_snaifServer_path; fi
 save_conf
 
 echo -e "done.\n"
