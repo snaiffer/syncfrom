@@ -5,7 +5,7 @@ export dir_bin="/usr/bin"
 export file_conf="/etc/syncfrom.conf"
 export path_pc="/home/snaiffer"
 export disk_name="snaifExHard"
-export snaifServer_addr="snaiffer@25.97.252.238"
+export snaifServer_addr="snaiffer@95.181.142.127"
 export snaifServer_port="2002"
 export snaifServer_path="/store"
 
@@ -46,9 +46,9 @@ get_disk_name() {
   }
 
 short_sync() {
-  printf "Do you want the short sync (include sync of several folders)? (y/n) " && read answer
+  printf "Do you want the short sync (sync selected folders only)? (y/n) " && read answer
   if [ "$answer" = "y" ]; then
-    short_sync="BasKet documents work unsorted english"
+    short_sync="BasKet documents work unsorted"
     printf "\tShort sync turn on. Default list for sync: ($short_sync) " && read new_short_sync
     if [ "$new_short_sync" != "" ]; then short_sync="$new_short_sync"; fi
     #analize && break
@@ -69,6 +69,8 @@ export short_sync=\"$short_sync\"" | sudo tee -a $file_conf > /dev/null
   fi
   }
 
+# auth. for sudo
+sudo echo
 
 echo "Installing syncfrom* scripts at the system..."
 sudo cp -f $dir_script/syncfrom* $dir_bin/ && sudo chmod +x $dir_bin/syncfrom*
