@@ -3,7 +3,7 @@
 export dir_script=`dirname $0`
 export dir_bin="/usr/bin"
 export file_conf="/etc/syncfrom.conf"
-export path_pc="/home/snaiffer"
+export path_pc="`echo ~`"   # by default: home dir
 export disk_name="snaifExHard"
 export snaifServer_addr="snaiffer@95.181.142.127"
 export snaifServer_port="2002"

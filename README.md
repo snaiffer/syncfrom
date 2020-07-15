@@ -24,7 +24,7 @@ pc ↔ snaifServer
 ## Installation and configuration
 
 ```sh
-sudo ./install
+sudo ./install.sh
 ```
 
 Note: run it again for reconfiguration.
