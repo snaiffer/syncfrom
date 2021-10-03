@@ -5,7 +5,7 @@ export dir_bin="/usr/bin"
 export file_conf="/etc/syncfrom.conf"
 export path_pc="`echo ~`"   # by default: home dir
 export disk_name="snaifExHard"
-export snaifServer_addr="snaiffer@95.181.142.127"
+export snaifServer_addr="snaiffer@95.181.246.219"
 export snaifServer_port="2002"
 export snaifServer_path="/store"
 
