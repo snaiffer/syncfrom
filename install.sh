@@ -57,6 +57,11 @@ short_sync() {
 
 save_conf() {
   echo "export path_pc=$path_pc
+# Detalization of rsync:
+#     short	-- output aggreagtive progress information (one-line progress bar)
+#     detail	-- output transfer of each file
+export rsync_progress_mode=\"short\"
+
 export path_disk=$path_disk
 export snaifServer_addr=$snaifServer_addr
 export snaifServer_port=$snaifServer_port

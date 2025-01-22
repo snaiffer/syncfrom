@@ -12,4 +12,10 @@ export remotePC="$snaifServer_addr"
 export remotePC_port="$snaifServer_port"
 export remotePC_path="$snaifServer_path"
 
-.syncfrom_remotePC_pc
+export syncFrom_host=$remotePC
+export syncFrom_port=$remotePC_port
+export syncFrom_path=$remotePC_path
+export syncTo_host=localhost
+export syncTo_port=22
+export syncTo_path=$path_pc
+.syncfrom_general

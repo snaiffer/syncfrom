@@ -1,0 +1,129 @@
+#!/bin/bash -e
+
+export b=$(tput bold)   # bold text
+export n=$(tput sgr0)   # normal text
+export yellow="\033[1;33;40m"   # yellow text
+
+#
+echo -e "\n${b}Input args:${n}"
+echo -e "\t syncFrom_host: ${b}${syncFrom_host}${n}"
+echo -e "\t syncFrom_port: ${b}${syncFrom_port}${n}"
+echo -e "\t syncFrom_path: ${b}${syncFrom_path}${n}"
+echo -e "\t syncTo_host:   ${b}${syncTo_host}${n}"
+echo -e "\t syncTo_port:   ${b}${syncTo_port}${n}"
+echo -e "\t syncTo_path:   ${b}${syncTo_path}${n}"
+export mode=""
+if [[ -n "${syncFrom_host}" && -n "${syncFrom_port}" \
+   && -n "${syncTo_host}"   && -n "${syncTo_port}" ]]; then
+    if [[ -n "${syncFrom_path}" && -n "${syncTo_path}" ]]; then
+        mode="remote"
+        if [[ "$syncFrom_host" == "localhost" ]]; then
+            syncFrom_host="127.0.0.1"
+        fi
+        if [[ "$syncTo_host" == "localhost" ]]; then
+            syncTo_host="127.0.0.1"
+        fi
+        if [[ "$syncFrom_host" != "127.0.0.1" && "$syncTo_host" != "127.0.0.1" ]]; then
+             echo "ERROR: rsync: The source and destination cannot both be remote"
+             exit 1
+        fi
+    else
+        echo "ERROR: All input args have to be set"
+        exit 1
+    fi
+else
+    mode="local"
+fi
+
+echo -e "\n${b}Mode:${n} $mode"
+ssh_prefix_syncTo=""
+ssh_prefix_syncFrom=""
+ssh_postfix=''
+if [[ "$mode" == "remote" ]]; then
+    ssh_prefix_syncTo="ssh -p $syncTo_port $syncTo_host -x \""
+    ssh_prefix_syncFrom="ssh -p $syncFrom_port $syncFrom_host -x \""
+    ssh_postfix='"'
+fi
+
+rsync_progress_opts="--info=progress2 --no-inc-recursive"
+if [[ "$rsync_progress_mode" == "detail" ]]; then
+    rsync_progress_opts="--progress -v"
+fi
+
+#
+echo -e "\n${b}Items for sync:${n}"
+if [ "$short_sync" = "" ]; then
+  items4sync=$(eval ${ssh_prefix_syncFrom}ls $syncFrom_path/sync${ssh_postfix})
+else
+  items4sync="$short_sync"
+fi
+items4sync=$(echo "$items4sync" | tr '\n' ' ')
+IFS=' ' read -r -a items4sync <<< "$items4sync"
+for cur_f in "${items4sync[@]}"; do
+    echo -e "\t${cur_f}"
+done
+echo
+
+#
+printf "${b}Check symlinks... ${n}"
+symlink_path_f=$(eval ${ssh_prefix_syncFrom}find $syncFrom_path/sync -maxdepth 1 -type l${ssh_postfix})
+for cur_path_f in $symlink_path_f; do
+    printf "\n\t${yellow}It's a symlink:${n} ${b}$cur_path_f${n}"
+done
+if [ "$symlink_path_f" != "" ]; then
+    echo -e "\n\tNOTE: All symlinks will be copied as symlinks. Files (symlink link to) won't be copied."
+    printf "\tPress <Enter> to continue"; read
+else
+    echo "done."
+fi
+echo
+
+#
+if [ "$short_sync" == "" ]; then
+    printf "${b}Remove toplevel files/folders from syncTo, that are not in the syncFrom... ${n}"
+
+    # Create an associative array for quick lookup
+    declare -A keep
+    for item in "${items4sync[@]}"; do
+        keep["$item"]=1
+    done
+
+    found=false
+    for entry in $(eval ${ssh_prefix_syncTo}ls $syncTo_path/sync${ssh_postfix}); do
+        if [[ ! ${keep["$entry"]} ]]; then
+            found=true
+            path2rm="$syncTo_path/sync/$entry"
+            printf "\n\tRemove item $syncTo_host:${path2rm} ? ( y/n )... " && read answer
+            if [[ "y" == "$answer" || "Y" == "$answer" || "yes" == "$answer" ]]; then
+                eval ${ssh_prefix_syncTo}rm -Rf -v $path2rm${ssh_postfix}
+            fi
+        fi
+    done
+    if [ "$found" = "false" ]; then
+        echo "Nothing to remove."
+    fi
+    echo
+fi
+
+#
+echo -e "${b}Synchronization:${n}"
+eval ${ssh_prefix_syncTo}mkdir -p $syncTo_path/sync${ssh_postfix}
+for cur_f in "${items4sync[@]}"; do
+    echo -e "\t${b}folder \"${cur_f}\":${n}"
+
+    syncFrom_host_holder=""
+    syncTo_host_holder=""
+    port_holder=""
+    if [[ "$syncFrom_host" == "127.0.0.1" ]]; then
+        syncTo_host_holder="$syncTo_host:"
+        port_holder="--rsh=\"ssh -p $syncTo_port\""
+    elif [[ "$syncTo_host" == "127.0.0.1" ]]; then
+        syncFrom_host_holder="$syncFrom_host:"
+        port_holder="--rsh=\"ssh -p $syncFrom_port\""
+    fi
+    eval rsync $port_holder -a --delete $rsync_progress_opts ${syncFrom_host_holder}$syncFrom_path/sync/$cur_f \
+                                                 ${syncTo_host_holder}$syncTo_path/sync/
+done
+
+sync
+echo -e "\ndone.\n"

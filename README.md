@@ -1,4 +1,4 @@
-The set of the scripts for simplification synchronization **sync** folder between **pc**,  **exhard** (external hard disk) and **remotePC** (via SSH).
+The set of the scripts for simplification synchronization **sync** folder between **pc**,  **exhard** (external hard disk), **remotePC** (via SSH).
 
 **rsync** is used for synchronization.
 
@@ -28,6 +28,21 @@ sudo ./install.sh
 ```
 
 Note: run it again for reconfiguration.
+
+## Prepare snaifExHard
+It should have ext4 filesystem for preserving permissions and flags for folders/files.
+1. Detect "dev":
+```sh
+lsblk
+```
+2. Format flash drive as ext4:
+```sh
+sudo umount /dev/sdb1 && sleep 1 && sudo mkfs.ext4 -L "snaifExHard" /dev/sdb1
+```
+3. Add permissions for current user:
+```sh
+sudo chown $USER:$USER -R /media/adanilov/snaifExHard
+```
 
 ## Use
 

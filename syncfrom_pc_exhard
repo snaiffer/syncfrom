@@ -2,13 +2,10 @@
 
 source /etc/syncfrom.conf
 
-if [ "$short_sync" = "" ]; then
-  rsync -a --delete --progress -v $path_pc/sync $path_disk/
-else
-  mkdir -p $path_disk/sync
-  for cur_f in $short_sync; do
-    rsync -a --delete --progress -v $path_pc/sync/$cur_f $path_disk/sync/
-  done
-fi
-
-sync
+export syncFrom_host=""
+export syncFrom_port=""
+export syncFrom_path=$path_pc
+export syncTo_host=""
+export syncTo_port=""
+export syncTo_path=$path_disk
+.syncfrom_general
