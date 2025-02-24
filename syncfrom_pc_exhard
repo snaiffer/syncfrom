@@ -4,8 +4,8 @@ source /etc/syncfrom.conf
 
 export syncFrom_host=""
 export syncFrom_port=""
-export syncFrom_path=$path_pc
+export syncFrom_path=""
 export syncTo_host=""
 export syncTo_port=""
-export syncTo_path=$path_disk
+export syncTo_path=$exHard_path
 .syncfrom_general

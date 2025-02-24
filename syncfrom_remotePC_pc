@@ -12,5 +12,5 @@ export syncFrom_port=$remotePC_port
 export syncFrom_path=$remotePC_path
 export syncTo_host=localhost
 export syncTo_port=22
-export syncTo_path=$path_pc
+export syncTo_path=""
 .syncfrom_general

@@ -9,7 +9,7 @@ printf 'Input path to sync-directory of remotePC (Ex.: /home/user): ' && read re
 
 export syncFrom_host=localhost
 export syncFrom_port=22
-export syncFrom_path=$path_pc
+export syncFrom_path=""
 export syncTo_host=$remotePC
 export syncTo_port=$remotePC_port
 export syncTo_path=$remotePC_path
