@@ -53,6 +53,9 @@ if [ ${#items4sync[@]} -eq 0 ]; then
     exit 1
 else
     for ((i=0; i < ${#items4sync[@]}; i++)); do
+        # remove lead spaces or tabs
+        items4sync[$i]=$(echo "${items4sync[$i]}" | sed 's/^[ \t]\+//')
+
         if [[ "${items4sync[$i]: -1}" == "/" ]]; then
             # the path shouldn't end with '/'
             items4sync[$i]="${items4sync[$i]::-1}"
@@ -66,7 +69,7 @@ else
             syncFrom_path_items[$i]="${syncFrom_path}"/$(echo "${items4sync[$i]}" | sed "s/.*\///")
             syncTo_path_items[$i]="$(dirname "${items4sync[$i]}")/"
         fi
-        echo -e "\t${syncFrom_path_items[$i]}\t=>\t${syncTo_path_items[$i]}"
+        echo -e "\t${syncFrom_path_items[$i]} => ${syncTo_path_items[$i]}"
     done
 fi
 export mode=""
