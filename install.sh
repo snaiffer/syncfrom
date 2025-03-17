@@ -54,7 +54,7 @@ get_exHard_path() {
 
 get_items4sync() {
     while true; do
-        echo -e "\n${b}Input full pathes to items for sync:${n}"
+        echo -e "\n${b}Input full pathes to items for sync on your PC:${n}"
         items4sync=""
         while true; do
             printf "\t Enter the path to a new item (leave empty to finish): "; read newitem
