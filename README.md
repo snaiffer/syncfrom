@@ -54,6 +54,27 @@ pc ↔ snaifServer
 
 Note: run it again for reconfiguration.
 
+## Example of /etc/syncfrom.conf
+```sh
+export rsync_progress_mode="short"
+symlinks_auto_continue="false"
+
+export exHard_path=/media/adanilov/snaifExHard/sync
+export snaifServer_addr=user@192.168.10.10
+export snaifServer_port=22
+export snaifServer_path=/store
+export items4sync=" \
+	/home/adanilov/cma \
+	/home/adanilov/cma_archive \
+	/home/adanilov/cma_payload \
+	/home/adanilov/Desktop \
+	/home/adanilov/Downloads \
+	/home/adanilov/documents \
+	/home/adanilov/archive \
+	/home/adanilov/BasKet"
+
+```
+
 ## Prepare exHard
 It should have ext4 filesystem for preserving permissions and flags for folders/files.
 1. Detect "dev":

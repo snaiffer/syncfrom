@@ -93,7 +93,7 @@ export rsync_progress_mode=\"short\"
 # Auto-continue in case of symlink detecting on top-levels of sync directory:
 #     false   -- you'll have to do confirmation for every detection of symlink
 #     true    -- you'll get warning message only. Without asking for manual confirmation
-symlinks_auto_continue=\"false\"
+export symlinks_auto_continue=\"false\"
 
 export exHard_path=$exHard_path
 export snaifServer_addr=$snaifServer_addr
