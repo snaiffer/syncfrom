@@ -62,7 +62,7 @@ symlinks_auto_continue="false"
 export exHard_path=/media/adanilov/snaifExHard/sync
 export snaifServer_addr=user@192.168.10.10
 export snaifServer_port=22
-export snaifServer_path=/store
+export snaifServer_path=/store/sync
 export items4sync=" \
 	/home/adanilov/cma \
 	/home/adanilov/cma_archive \

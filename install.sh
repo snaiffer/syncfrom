@@ -4,9 +4,9 @@ export dir_script=`dirname $0`
 export dir_bin="/usr/bin"
 export file_conf="/etc/syncfrom.conf"
 export disk_name="snaifExHard"
-export snaifServer_addr="snaiffer@95.181.246.219"
+export snaifServer_addr="snaiffer@snaif.ru"
 export snaifServer_port="2002"
-export snaifServer_path="/store"
+export snaifServer_path="/store/sync"
 export items4sync=""
 export exHard_path=""
 
